@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Button, Stack, TextField, Typography } from '@mui/material';
+import { fetchData, exerciseOptions } from '../utils/fetchData';
 
 const SearchExercises = () => {
-	const [search, setSearch] = useState('')
+	const [search, setSearch] = useState('');
 
-	const handleSearch = async (e) => {
+	const handleSearch = async e => {
 		e.preventDefault();
 		if (search) {
-			const exercisesData = await fetch(`/api/exercises?search=${search}`)
+			const exercisesData = await fetchData(
+				'https://exercisedb.p.rapidapi.com/exercises/bodyPartList',
+				exerciseOptions
+			);
+			console.log(exercisesData);
 		}
-	}
+	};
 
 	return (
 		<Stack alignItems='center' mt='37px' justifyContent='center' p='20px'>
@@ -37,7 +42,7 @@ const SearchExercises = () => {
 					}}
 					height='76px'
 					value={search}
-					onChange={(e) => setSearch(e.target.value.toLowerCase().trim())}
+					onChange={e => setSearch(e.target.value.toLowerCase().trim())}
 					onClick={handleSearch}
 					placeholder='Search Exercises'
 					type='text'
